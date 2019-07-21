@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>SymBnb - {% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link rel="stylesheet" type="text/css" href="{{ asset('build/css/app.css')}}">
+        {#gestion du probleme de chargement des packages via webpack#}
+        {{ encore_entry_link_tags('app') }}
+        
+
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+
+        {% include "admin/partials/header.html.twig" %}
+
+        <div class="container-fluid"></div>{% block body %}{% endblock %}</div>
+
+        {% include "admin/partials/footer.html.twig" %}
+
+        <script src="https://kit.fontawesome.com/7a847620b8.js"></script>
+        {{ encore_entry_script_tags('app') }}
+        {% block javascripts %}{% endblock %}
+        
+    </body>
+</html>
