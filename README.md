@@ -10,6 +10,7 @@ Vous pouvez voir un aperçu de l'application à l'adresse suivante : https://sym
 
 ```
 git clone https://github.com/bastien70/symbnb.git
+cd symbnb
 
 composer install
 npm install
