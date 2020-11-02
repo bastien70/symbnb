@@ -1,6 +1,3 @@
-# symbnb
-Site de réservations d'appartements
-
 ## Description
 
 Cette application reproduit un système de réservation d'appartement en ligne tel que AirBnb.
