@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Service;
+
 use Twig\Environment;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -10,13 +12,16 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * 
  * Elle nécessite après instanciation qu'on lui passe l'entité sur laquelle on souhaite travailler
  */
-class PaginationService {
+class PaginationService
+{
     /**
      * Le nom de l'entité sur laquelle on veut effectuer une pagination
      *
      * @var string
      */
     private $entityClass;
+
+
     /**
      * Le nombre d'enregistrement à récupérer
      *
@@ -64,9 +69,10 @@ class PaginationService {
      * @param RequestStack $request
      * @param string $templatePath
      */
-    public function __construct(ObjectManager $manager, Environment $twig, RequestStack $request, string $templatePath) {
+    public function __construct(ObjectManager $manager, Environment $twig, RequestStack $request, string $templatePath)
+    {
         // On récupère le nom de la route à utiliser à partir des attributs de la requête actuelle
-        $this->route        = $request->getCurrentRequest()->attributes->get('_route');        
+        $this->route        = $request->getCurrentRequest()->attributes->get('_route');
         // Autres initialisations
         $this->manager      = $manager;
         $this->twig         = $twig;
@@ -85,7 +91,8 @@ class PaginationService {
      * 
      * @return void
      */
-    public function display() {
+    public function display()
+    {
         $this->twig->display($this->templatePath, [
             'page' => $this->currentPage,
             'pages' => $this->getPages(),
@@ -103,16 +110,17 @@ class PaginationService {
      * 
      * @return int
      */
-    public function getPages(): int {
-        if(empty($this->entityClass)) {
+    public function getPages()
+    {
+        if (empty($this->entityClass)) {
             // Si il n'y a pas d'entité configurée, on ne peut pas charger le repository, la fonction
             // ne peut donc pas continuer !
             throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer ! Utilisez la méthode setEntityClass() de votre objet PaginationService !");
         }
         // 1) Connaitre le total des enregistrements de la table
         $total = count($this->manager
-                        ->getRepository($this->entityClass)
-                        ->findAll());
+            ->getRepository($this->entityClass)
+            ->findAll());
         // 2) Faire la division, l'arrondi et le renvoyer
         return ceil($total / $this->limit);
     }
@@ -127,8 +135,9 @@ class PaginationService {
      *
      * @return array
      */
-    public function getData() {
-        if(empty($this->entityClass)) {
+    public function getData()
+    {
+        if (empty($this->entityClass)) {
             throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer ! Utilisez la méthode setEntityClass() de votre objet PaginationService !");
         }
         // 1) Calculer l'offset
@@ -136,8 +145,8 @@ class PaginationService {
         // 2) Demander au repository de trouver les éléments à partir d'un offset et 
         // dans la limite d'éléments imposée (voir propriété $limit)
         return $this->manager
-                        ->getRepository($this->entityClass)
-                        ->findBy([], [], $this->limit, $offset);
+            ->getRepository($this->entityClass)
+            ->findBy([], [], $this->limit, $offset);
     }
     /**
      * Permet de spécifier la page que l'on souhaite afficher
@@ -145,7 +154,8 @@ class PaginationService {
      * @param int $page
      * @return self
      */
-    public function setPage(int $page): self {
+    public function setPage(int $page): self
+    {
         $this->currentPage = $page;
         return $this;
     }
@@ -154,7 +164,8 @@ class PaginationService {
      *
      * @return int
      */
-    public function getPage(): int {
+    public function getPage(): int
+    {
         return $this->currentPage;
     }
     /**
@@ -163,7 +174,8 @@ class PaginationService {
      * @param int $limit
      * @return self
      */
-    public function setLimit(int $limit): self {
+    public function setLimit(int $limit): self
+    {
         $this->limit = $limit;
         return $this;
     }
@@ -172,7 +184,8 @@ class PaginationService {
      *
      * @return int
      */
-    public function getLimit(): int {
+    public function getLimit(): int
+    {
         return $this->limit;
     }
     /**
@@ -184,7 +197,8 @@ class PaginationService {
      * @param string $entityClass
      * @return self
      */
-    public function setEntityClass(string $entityClass): self {
+    public function setEntityClass(string $entityClass): self
+    {
         $this->entityClass = $entityClass;
         return $this;
     }
@@ -193,7 +207,8 @@ class PaginationService {
      *
      * @return string
      */
-    public function getEntityClass(): string {
+    public function getEntityClass(): string
+    {
         return $this->entityClass;
     }
     /**
@@ -202,7 +217,8 @@ class PaginationService {
      * @param string $templatePath
      * @return self
      */
-    public function setTemplatePath(string $templatePath): self {
+    public function setTemplatePath(string $templatePath): self
+    {
         $this->templatePath = $templatePath;
         return $this;
     }
@@ -210,8 +226,9 @@ class PaginationService {
      * Permet de récupérer le templatePath actuellement utilisé
      *
      * @return string
-     */ 
-    public function getTemplatePath(): string {
+     */
+    public function getTemplatePath(): string
+    {
         return $this->templatePath;
     }
     /**
@@ -220,7 +237,8 @@ class PaginationService {
      * @param string $route Le nom de la route à utiliser
      * @return self
      */
-    public function setRoute(string $route): self {
+    public function setRoute(string $route): self
+    {
         $this->route = $route;
         return $this;
     }
@@ -229,7 +247,8 @@ class PaginationService {
      *
      * @return string
      */
-    public function getRoute(): string {
+    public function getRoute(): string
+    {
         return $route;
     }
 }
