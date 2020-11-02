@@ -9,7 +9,7 @@ Vous pouvez voir un aperçu de l'application à l'adresse suivante : https://sym
 ## Installation
 
 ```
-https://github.com/bastien70/symbnb.git
+git clone https://github.com/bastien70/symbnb.git
 
 composer install
 npm install
